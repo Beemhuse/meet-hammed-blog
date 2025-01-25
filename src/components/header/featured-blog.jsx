@@ -10,13 +10,13 @@ const FeaturedBlog = ({ blog }) => {
           className="w-full h-[50vh] object-cover"
         />
       </div>
-      <div className="bg-white shadow-xl  p-6 rounded-xl -mt-20 relative  max-w-xl m-6">
+      <div className="bg-white dark:bg-[#181A2A] shadow-xl  p-6 rounded-xl -mt-40 relative  max-w-xl m-6">
         {/* Category */}
         <span className="text-sm bg-[#4B6BFB] rounded-md px-2 py-1 text-white  capitalize">
           {blog.category}
         </span>
         {/* Title */}
-        <h2 className="text-4xl font-bold text-gray-900 mt-2">{blog.title}</h2>
+        <h2 className="md:text-4xl text-2xl font-bold text-gray-900 dark:text-white mt-2">{blog.title}</h2>
         {/* Author and Date */}
         <div className="flex items-center mt-4 text-sm text-gray-600">
           <img
@@ -24,8 +24,8 @@ const FeaturedBlog = ({ blog }) => {
             alt={blog.author}
             className="w-8 h-8 rounded-full mr-2"
           />
-          <span>{blog.author}</span>
-          <span className="ml-4">{blog.date}</span>
+          <span className="dark:text-[#97989F]">{blog.author}</span>
+          <span className="ml-4 dark:text-[#97989F]">{blog.date}</span>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import useDarkMode from "@/hooks/useDarkMode";
 import useNavbarVisibility from "@/hooks/useNavbarVisibility";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
+import MobileNavbar from "./mobile-navbar";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme, mounted } = useDarkMode();
@@ -38,7 +39,7 @@ const Navbar = () => {
         {/* Search and Dark Mode Toggle */}
         <div className="flex items-center space-x-4">
           {/* Search */}
-          <div className="relative">
+          <div className="relative hidden md:block">
             <input
               type="text"
               placeholder="Search"
@@ -61,6 +62,9 @@ const Navbar = () => {
             ></div>
           </button>
         </div>
+
+         {/* Mobile Navbar */}
+         <MobileNavbar toggleTheme={toggleTheme} currentTheme={currentTheme} />
       </div>
     </nav>
   );

@@ -15,10 +15,10 @@ export default function Home() {
   return (
     <div className="">
       <FeaturedBlog blog={featuredBlogData} />
-      <section className="max-w-7xl m-auto">
+      <section className="max-w-7xl m-auto p-4">
 
         <h2 className="font-bold text-2xl">Latest Post</h2>
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  gap-6 p-6 ">
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  gap-6 p-0 md:p-6 ">
           {data.map((item) => (
             <Card
               key={item.id}
