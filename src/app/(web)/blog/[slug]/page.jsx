@@ -1,5 +1,5 @@
 import DisplayFormattedArticle from "@/components/DisplayFormattedArticle";
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 import { options, POSTS_QUERY } from "@/sanity/queries";
 import { formatDate } from "@/utils/formatDate";
 import { getFirstLetter } from "@/utils/getFirstLetter";
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${blog.title} | One Map Africa Blog`,
+    title: `${blog.title} | Meet Hammed Blog`,
     description: extractText(blog.body),
     openGraph: {
       title: blog.title,
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { slug } = await params;
-  const currentUrl = `https://www.onemapafrica.org/blog/${slug}`; // Update this to your blog's domain
+  const currentUrl = `https://meet-hammed-blog-t1oj.vercel.app/${slug}`; // Update this to your blog's domain
   const blog = await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -91,29 +91,29 @@ export default async function Page({ params }) {
           <span className="bg-[#F2F8F7] dark:bg-[#fff] dark:text-black rounded-xl mb-3 p-2 text-xs">
             {blog?.categories}
           </span>
-          <h2 className="text-2xl font-bold mt-3">{blog?.title}</h2>
+          <h2 className="text-2xl dark:text-[#ededed] font-bold mt-3">{blog?.title}</h2>
           <div className="flex mt-3 items-center">
             <div className="flex items-center gap-3">
               <div className="uppercase w-10 h-10 bg-gray-200 dark:bg-[#FFD700] dark:text-black flex items-center justify-center rounded-full text-sm">
                 {getFirstLetter(blog?.author)}
               </div>
-              <p className="capitalize text-sm">{blog?.author}</p>
+              <p className="capitalize text-sm dark:text-[#ededed]">{blog?.author}</p>
             </div>
-            <p className="flex text-sm items-center gap-2 ml-4">
+            <p className="flex text-sm dark:text-[#ededed] items-center gap-2 ml-4">
               {" "}
               <FaRegCalendarAlt /> {formatDate(blog?.publishedAt)}
             </p>
           </div>
           <div className=" mt-5">
             <Image
-              src={blog?.imageSrc}
+              src={urlFor(blog?.image)}
               alt=""
               width={500}
               height={500}
               className="object-cover  w-full aspect-auto"
             />
           </div>
-          <article className=" m-auto">
+          <article className=" m-auto dark:text-[#ededed]">
             <DisplayFormattedArticle description={blog?.body} />
           </article>
         </div>
@@ -122,7 +122,7 @@ export default async function Page({ params }) {
           <aside className="w-full  mt-10 lg:mt-0">
             {/* Recent Posts */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[#ededed] mb-4">
                 Recent Posts
               </h3>
               <ul className="space-y-4">
