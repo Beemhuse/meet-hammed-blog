@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 // import SpotlightCard from "../../../SpotlightCard/SpotlightCard";
 
-const Card = ({ image, category, title, author, date, slug, authorImage }) => {
+const Card = ({ image, category, title, author, date, slug }) => {
   const { push } = useRouter();
 console.log(slug)
   return (
@@ -44,7 +44,7 @@ console.log(slug)
         {/* Author */}
         <div className="flex items-center space-x-2">
           <Image
-            src={authorImage}
+            src={urlFor(image)}
             alt={author}
             height={100}
             width={300}
