@@ -2,7 +2,7 @@ import * as React from "react";
 
 export function Sidebar({ children, className, ...props }) {
   return (
-    <aside className={`w-64 bg-gray-900 text-white h-screen ${className}`} {...props}>
+    <aside className={` bg-gray-900 text-white h-screen ${className}`} >
       {children}
     </aside>
   );
