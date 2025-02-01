@@ -21,7 +21,7 @@ export default async function Home() {
       <FeaturedBlog blog={featuredBlogData} />
       <section className="max-w-7xl m-auto p-4">
 
-        <h2 className="font-bold text-2xl">Latest Post</h2>
+        <h2 className="font-bold text-2xl dark:text-white">Latest Post</h2>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  gap-6 p-0 md:p-6 ">
           {posts?.map((item) => (
             <Card

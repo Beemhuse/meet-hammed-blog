@@ -131,7 +131,7 @@ export default async function Page({ params }) {
                     <Link href={`/blog/${recentBlog?.slug.current}`}>
                       <div className="flex items-center gap-4">
                         <Image
-                          src={recentBlog?.imageSrc}
+                          src={recentBlog?.image}
                           alt=""
                           width={50}
                           height={50}
