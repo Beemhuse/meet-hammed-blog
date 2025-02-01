@@ -35,7 +35,6 @@ export default function Home() {
         </div>
       </section>
       <section>
-        <h2>My Gallery</h2>
         <RollingGallery />
       </section>
 

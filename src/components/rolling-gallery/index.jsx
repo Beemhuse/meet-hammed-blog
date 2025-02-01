@@ -29,12 +29,22 @@ const RollingGallery = ({
   images = images.length > 0 ? images : IMGS;
 
   const [isScreenSizeSm, setIsScreenSizeSm] = useState(
-    window.innerWidth <= 640
+    typeof window !== "undefined" && window.innerWidth <= 640
   );
   useEffect(() => {
-    const handleResize = () => setIsScreenSizeSm(window.innerWidth <= 640);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const updateSize = () => {
+      setIsScreenSizeSm(window.innerWidth <= 640);
+    };
+  
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", updateSize);
+    }
+  
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", updateSize);
+      }
+    };
   }, []);
 
   // 3D geometry
@@ -109,21 +119,7 @@ const RollingGallery = ({
 
   return (
     <div className="relative h-[500px] w-full overflow-hidden">
-      {/* <div
-        className="absolute top-0 left-0 h-full w-[48px] z-10"
-        style={{
-          background:
-            "linear-gradient(to left, rgba(0,0,0,0) 0%, #060606 100%)",
-        }}
-      />
-      <div
-        className="absolute top-0 right-0 h-full w-[48px] z-10"
-        style={{
-          background:
-            "linear-gradient(to right, rgba(0,0,0,0) 0%, #060606 100%)",
-        }}
-      /> */}
-
+<h2 className='text-center dark:text-white'>My gallery</h2>
       <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
         <motion.div
           drag="x"
