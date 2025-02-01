@@ -1,5 +1,6 @@
 import "./globals.css";
 import ThemeProviderComp from "@/layout/ThemeProvider";
+import MainLayout from "./MainLauout";
 
 
 export const metadata = {
@@ -14,7 +15,10 @@ export default function RootLayout({ children }) {
         className={` dark:bg-[#181A2A]  antialiased`}
       >
         <ThemeProviderComp>
-          {children}
+          <MainLayout>
+
+            {children}
+          </MainLayout>
         </ThemeProviderComp>
       </body>
     </html>

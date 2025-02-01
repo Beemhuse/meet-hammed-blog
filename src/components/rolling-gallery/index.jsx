@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import {
   motion,
@@ -35,11 +35,11 @@ const RollingGallery = ({
     const updateSize = () => {
       setIsScreenSizeSm(window.innerWidth <= 640);
     };
-  
+
     if (typeof window !== "undefined") {
       window.addEventListener("resize", updateSize);
     }
-  
+
     return () => {
       if (typeof window !== "undefined") {
         window.removeEventListener("resize", updateSize);
@@ -119,7 +119,7 @@ const RollingGallery = ({
 
   return (
     <div className="relative h-[500px] w-full overflow-hidden">
-<h2 className='text-center dark:text-white'>My gallery</h2>
+      <h2 className="text-center text-2xl dark:text-white">My gallery</h2>
       <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
         <motion.div
           drag="x"
@@ -144,13 +144,14 @@ const RollingGallery = ({
               className="group absolute flex h-fit items-center justify-center p-[8%] [backface-visibility:hidden] md:p-[6%]"
               style={{
                 width: `${faceWidth}px`,
-                transform: `rotateY(${(360 / faceCount) * i
-                  }deg) translateZ(${radius}px)`,
+                transform: `rotateY(${
+                  (360 / faceCount) * i
+                }deg) translateZ(${radius}px)`,
               }}
             >
               <Image
-              height={500}
-              width={500}
+                height={500}
+                width={500}
                 src={url}
                 alt="gallery"
                 className="pointer-events-none h-[120px] w-[500px] rounded-[15px] border-[3px] border-white object-cover

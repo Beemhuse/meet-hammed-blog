@@ -71,7 +71,7 @@ export default function Page() {
                     <h3 className="text-2xl font-semibold text-gray-800">
                       Location
                     </h3>
-                    <p className="text-gray-600">Ghana, Gambia & Uganda</p>
+                    <p className="text-gray-600">Lagos Nigeria</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-10">
@@ -83,7 +83,7 @@ export default function Page() {
                     <h3 className="text-2xl font-semibold text-gray-800">
                       Phone Number
                     </h3>
-                    <p className="text-gray-600">+233 2410-5252-6</p>
+                    <p className="text-gray-600">+234 2410-5252-6</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-10">
@@ -94,7 +94,7 @@ export default function Page() {
                     <h3 className="text-2xl font-semibold text-gray-800">
                       Email
                     </h3>
-                    <p className="text-gray-600">onemapafrica@gmail.com</p>
+                    <p className="text-gray-600">test@gmail.com</p>
                   </div>
                 </li>
               </ul>

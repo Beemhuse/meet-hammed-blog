@@ -12,8 +12,7 @@ export const metadata = {
 
 export default function Layout({ children }) {
   return (
-    <html lang="en">
-      <body className={` dark:bg-[#181A2A]  antialiased`}>
+      <>
         <Navbar />
         <Container>
           <SplashCursor />
@@ -21,7 +20,6 @@ export default function Layout({ children }) {
           {children}
         </Container>
         <Footer />
-      </body>
-    </html>
+    </>
   );
 }
