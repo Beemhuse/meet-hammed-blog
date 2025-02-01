@@ -35,11 +35,11 @@ const MobileNavbar = ({ toggleTheme, currentTheme }) => {
             Blog
           </Link>
           <Link
-            href="/contact"
+            href="/about"
             onClick={toggleMenu}
             className="text-2xl font-bold"
           >
-            Contact
+            About
           </Link>
 
           {/* Dark Mode Toggler */}
