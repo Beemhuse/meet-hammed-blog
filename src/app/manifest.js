@@ -1,7 +1,7 @@
 export default function manifest() {
   return {
-    name: 'One Map Africa',
-    short_name: 'OMA',
+    name: 'Meet hammed',
+    short_name: 'MH',
     description: 'One Map Africa is a dedicated NGO leveraging innovative mapping and GIS solutions to address pressing challenges across Africa. We empower communities, support sustainable development, and drive impactful decision-making through real-time data and geographic insights. Join us in creating a brighter future for the continent.',
     start_url: '/',
     display: 'standalone',

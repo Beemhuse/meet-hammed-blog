@@ -1,8 +1,12 @@
 import React from "react";
+// import SpotlightCard from "../../../SpotlightCard/SpotlightCard";
 
 const Card = ({ image, category, title, author, date, authorImage }) => {
   return (
-    <div className="max-w-sm cursor-pointer border p-4 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transform transition-transform duration-300 group hover:scale-105 hover:shadow-lg">
+    // <SpotlightCard>
+
+    // </SpotlightCard>
+    <div className="max-w-sm  border p-4 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden transform transition-transform duration-300 group hover:scale-105 hover:shadow-lg">
       {/* Image Section */}
       <div className="relative overflow-hidden rounded-lg">
         <img

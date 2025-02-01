@@ -3,6 +3,9 @@ import Navbar from "@/layout/Navbar";
 import Container from "@/layout/container";
 import Footer from "@/layout/Footer";
 import ThemeProviderComp from "@/layout/ThemeProvider";
+import SpotlightCard from "../../SpotlightCard/SpotlightCard";
+import BlobCursor from "@/components/cursor/cursor";
+import SplashCursor from "@/components/cursor/cursor";
 
 
 
@@ -21,6 +24,8 @@ export default function RootLayout({ children }) {
 
           <Navbar />
           <Container>
+            <SplashCursor />
+
 
             {children}
           </Container>
