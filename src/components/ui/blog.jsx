@@ -35,7 +35,6 @@ export default function BlogPage() {
 
   const { data: posts } = useSWR(query);
   console.log(posts)
-  // const posts = await client.fetch(query);
   return (
     <div className="p-6">
       <Suspense>

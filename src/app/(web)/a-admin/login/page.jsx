@@ -1,16 +1,55 @@
+"use client"
 import Button from "@/components/reusables/button";
 import InputComponent from "@/components/reusables/input";
 import Typography from "@/components/reusables/typography";
-import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { postRequest } from "@/services/postRequest";
+import toast from "react-hot-toast";
 
-export default function page() {
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+
+  password: yup.string().required("Subject is required"),
+});
+export default function Page() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      await postRequest("/api/login", data);
+      toast.success("User signed in successfully!");
+
+      setIsLoading(false);
+      reset();
+    } catch (err) {
+      setIsLoading(false);
+      toast.error(err.message || "Failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <section className=" h-screen  flex items-center justify-center">
       <div className="max-w-lg w-full ">
        
         <form
-        //   onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="grid gap-3 bg-white p-10 rounded-lg shadow-md"
           method="post"
         >
@@ -23,8 +62,8 @@ export default function page() {
             placeholder="Enter your email"
             borderStyle="bottom"
             name="email"
-            // register={register}
-            // error={errors.email?.message}
+            register={register}
+            error={errors.email?.message}
           />
           <InputComponent
             label="Password"
@@ -33,8 +72,8 @@ export default function page() {
             password
             borderStyle="bottom"
             name="password"
-            // register={register}
-            // error={errors.password?.message}
+            register={register}
+            error={errors.password?.message}
           />
           <Typography
             variant="h2"
@@ -48,7 +87,7 @@ export default function page() {
             title="Login"
             color="gray"
             type="submit"
-            // isLoading={loading}
+            isLoading={isLoading}
           />
           {/* <div className="flex justify-center -mt-2 mb-10 items-center">
             <Typography variant="body" size="sm" className="text-center">
