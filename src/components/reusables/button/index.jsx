@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import React from "react";
@@ -14,7 +14,8 @@ const Button = ({
   onClick = () => {},
   icon,
   iconProps = {},
-  classname
+  classname,
+  ...props
 }) => {
   const baseStyles = "font-poppins rounded-lg transition-all duration-200";
   const sizeStyles = {
@@ -46,11 +47,12 @@ const Button = ({
         classname,
         "flex items-center justify-center gap-2 text-center"
       )}
+      {...props}
     >
       {isLoading ? (
         "Loading"
-        // <DottedLoader />
       ) : (
+        // <DottedLoader />
         <>
           {icon && React.createElement(icon.type, { ...iconProps })}
           {title}

@@ -6,6 +6,7 @@ import { client } from "@/sanity/client";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { POSTS_QUERY } from "@/sanity/queries";
+import { EmptyState } from "./empty-state";
 
 // Dummy data for blogs
 const blogs = [
@@ -117,7 +118,7 @@ export default function ViewBlogs() {
             />
           ))
         ) : (
-          <p className="text-gray-500">No blogs found.</p>
+          <EmptyState />
         )}
       </div>
 
