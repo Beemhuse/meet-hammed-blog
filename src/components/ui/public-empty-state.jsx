@@ -1,22 +1,52 @@
 "use client"
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail } from "lucide-react"
 import Button from "../reusables/button"
 import InputComponent from "../reusables/input"
 import { Card } from "../card"
+import { postRequest } from "@/services/postRequest";
+import toast from "react-hot-toast";
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+});
 export function PublicEmptyState() {
-  const [email, setEmail] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {
-    e.preventDefault()
-    // Here you would typically handle the newsletter subscription
-    console.log("Subscribing email:", email)
-    // Reset the email input
-    setEmail("")
-  }
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data, event) => {
+    event.preventDefault(); // Prevents the page from refreshing
+
+    setIsLoading(true);
+    try {
+      const res = await postRequest("/api/newsletter", data);
+      toast.success(res.message);
+      setIsLoading(false);
+      reset();
+    } catch (err) {
+      setIsLoading(false);
+      toast.error(err || "Failed");
+      reset();
+
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Card className="max-w-2xl mx-auto my-12 p-8 text-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
@@ -49,18 +79,19 @@ export function PublicEmptyState() {
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
           We're working on amazing blog posts. Stay tuned for insightful articles and engaging stories!
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center space-y-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">Be the first to know when we publish new content:</p>
           <div className="flex w-full max-w-sm items-center space-x-2">
             <InputComponent
               type="email"
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              register={register}
+              error={errors.email?.message}
               required
               className="flex-grow"
             />
-            <Button title='Subscribe' icon={
+            <Button isLoading={isLoading} title='Subscribe' icon={
               <Mail className="mr-2 h-4 w-4" />
 
             } type="submit" className="bg-indigo-600 flex p-2 space-x-3 hover:bg-indigo-700 text-white" />

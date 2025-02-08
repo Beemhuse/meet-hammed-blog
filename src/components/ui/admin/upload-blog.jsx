@@ -17,8 +17,6 @@ export default function BlogUploadPage({ cat }) {
   const editorRef = useRef(null);
   const [statusLoading, setStatusLoading] = useState(false);
 
-  console.log(cat);
-  // Fetch categories from Sanity
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -108,13 +106,16 @@ export default function BlogUploadPage({ cat }) {
     }
   };
   return (
-    <section>
-      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <section className="grid grid-cols-3 items-center ">
+      <div className=" w-full p-6 col-span-2 bg-white ">
         <h2 className="text-2xl font-bold mb-4">Upload Blog Article</h2>
 
         {message && <p className="text-green-500 mb-4">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+        <input type="file" onChange={handleImageChange} />
+
           <input
             type="text"
             placeholder="Title"
@@ -147,7 +148,6 @@ export default function BlogUploadPage({ cat }) {
             </select>
           </div>
 
-          <input type="file" onChange={handleImageChange} />
 
           <button
             type="submit"

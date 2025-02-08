@@ -55,7 +55,7 @@ const TextEditor = React.forwardRef(
     }));
 
     return (
-      <div className="border rounded-lg overflow-hidden" ref={editorRef} />
+      <div className="border rounded-lg h-[40vh] overflow-hidden" ref={editorRef} />
     );
   }
 );

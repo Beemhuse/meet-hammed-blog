@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import React from "react";
+import Loading from "@/components/ui/loading";
 // import DottedLoader from "@/components/layout/loader/DottedLoader";
 
 const Button = ({
@@ -50,9 +51,8 @@ const Button = ({
       {...props}
     >
       {isLoading ? (
-        "Loading"
+        <Loading />
       ) : (
-        // <DottedLoader />
         <>
           {icon && React.createElement(icon.type, { ...iconProps })}
           {title}
