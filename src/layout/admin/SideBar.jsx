@@ -24,29 +24,29 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: GrSteps,
-    href: "/admin",
+    href: "/a-dashboard",
   },
   {
-    title: "Upload Course",
+    title: "Upload Blog",
     icon: FiUpload,
-    href: "/admin/upload",
+    href: "/a-dashboard/upload-blogs",
   },
   {
-    title: "My Courses",
+    title: "My Blogs",
     icon: HiSquare3Stack3D,
-    href: "/admin/courses",
+    href: "/a-dashboard/my-blogs",
   },
-  {
-    title: "Earning",
-    icon: CiCreditCard2,
-    href: "/admin/earning",
-  },
-  {
-    title: "Message",
-    icon: IoChatbubbleEllipsesOutline,
-    href: "/admin/messages",
-    badge: "1",
-  },
+  // {
+  //   title: "Earning",
+  //   icon: CiCreditCard2,
+  //   href: "/admin/earning",
+  // },
+  // {
+  //   title: "Message",
+  //   icon: IoChatbubbleEllipsesOutline,
+  //   href: "/admin/messages",
+  //   badge: "1",
+  // },
   {
     title: "Settings",
     icon: FiSettings,
@@ -56,7 +56,6 @@ const menuItems = [
 
 export function MainNav() {
   const pathname = usePathname();
-  console.log(pathname === menuItems[0].href);
 
   return (
     <Sidebar>

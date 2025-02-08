@@ -8,7 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { postRequest } from "@/services/postRequest";
 import toast from "react-hot-toast";
-
+import { Cookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 const schema = yup.object().shape({
   email: yup
     .string()
@@ -19,7 +20,8 @@ const schema = yup.object().shape({
 });
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
-
+const cookie = new Cookies()
+const {push} = useRouter()
   const {
     register,
     reset,
@@ -32,11 +34,13 @@ export default function Page() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      await postRequest("/api/login", data);
+     const res= await postRequest("/api/login", data);
       toast.success("User signed in successfully!");
-
+      console.log(res)
+      cookie.set("mb-token",res.token)
       setIsLoading(false);
       reset();
+      push("/a-dashboard")
     } catch (err) {
       setIsLoading(false);
       toast.error(err.message || "Failed");

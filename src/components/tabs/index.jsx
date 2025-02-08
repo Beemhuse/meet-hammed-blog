@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Moon, Sun } from "lucide-react";
-import Button from "../reusables/button";
 import useDarkMode from "@/hooks/useDarkMode";
 
 const tabs = [
