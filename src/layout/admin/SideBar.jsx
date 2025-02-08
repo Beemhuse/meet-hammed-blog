@@ -29,7 +29,7 @@ const menuItems = [
   {
     title: "Upload Blog",
     icon: FiUpload,
-    href: "/a-dashboard/upload-blogs",
+    href: "/a-dashboard/upload-blog",
   },
   {
     title: "My Blogs",
