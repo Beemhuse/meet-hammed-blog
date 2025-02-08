@@ -5,12 +5,14 @@ import React from "react";
 // import useSWR from "swr";
 
 export default async function page() {
-  const posts = await client.fetch(POSTS_QUERY, {}, options);
-console.log(posts)
-  // const { data: posts } = useSWR(query);
+//   const posts = await client.fetch(POSTS_QUERY, {}, options);
+// console.log(posts)
+// function refresh(){
+//   return client.fetch(POSTS_QUERY, {}, options);
+// }
   return (
     <div>
-      <ViewBlogs posts={posts} />
+      <ViewBlogs  />
     </div>
   );
 }

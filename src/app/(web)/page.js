@@ -14,7 +14,17 @@ const featuredBlogData = {
 };
 
 export default async function Home() {
-  const posts = await client.fetch(POSTS_QUERY, {}, options);
+  const query = `*[_type == "post" && isDraft == false]{
+        _id, 
+        title,
+        "image": mainImage,
+        "category": categories[]->title,
+        slug,
+        body, 
+        publishedAt, 
+        "author": author->name
+      }`
+  const posts = await client.fetch(query, {}, options);
 
   return (
     <div className="">

@@ -11,7 +11,7 @@ export default function BlogPage() {
 
   const query =
   category && category !== "all"
-    ? `*[_type == "post" && "${category}" in categories[]->slug.current]{
+    ? `*[_type == "post" && isDraft == false && "${category}" in categories[]->slug.current]{
         _id, 
         title,
         "image": mainImage,
@@ -21,7 +21,7 @@ export default function BlogPage() {
         publishedAt, 
         "author": author->name
       }`
-    : `*[_type == "post"]{
+    : `*[_type == "post" && isDraft == false]{
         _id, 
         title,
         "image": mainImage,

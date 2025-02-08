@@ -4,5 +4,5 @@ export const POSTS_QUERY = `*[
     _type == "post"
     && defined(slug.current)
   ]|order(publishedAt asc)[0...12]{_id, title,"image": mainImage,
-        "categories": categories[]->title,
+        "categories": categories[]->title, isDraft,
  slug,body, publishedAt, "author": author->name}`;

@@ -1,6 +1,7 @@
 "use client"
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import React from "react";
 // import DottedLoader from "@/components/layout/loader/DottedLoader";
 
 const Button = ({
@@ -13,6 +14,7 @@ const Button = ({
   onClick = () => {},
   icon,
   iconProps = {},
+  classname
 }) => {
   const baseStyles = "font-poppins rounded-lg transition-all duration-200";
   const sizeStyles = {
@@ -41,6 +43,7 @@ const Button = ({
         sizeStyles[size],
         colorStyles[color],
         borderStyles,
+        classname,
         "flex items-center justify-center gap-2 text-center"
       )}
     >
