@@ -2,39 +2,91 @@
 
 import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic"; // Dynamic import for React Quill
-import { client } from "@/sanity/client";
+// import { client } from "@/sanity/client";
 import { FaEdit } from "react-icons/fa";
+import { Cookies } from "react-cookie";
+import { uploadImageToSanity } from "@/utils/uploadImageToSanity";
 const TextEditor = dynamic(() => import("./text-editor"), { ssr: false });
+const convertDeltaToPortableText = (delta) => {
+  if (!delta || !delta.ops) return []; // Handle empty content
 
+  const portableText = [];
+
+  delta.ops.forEach((op) => {
+    if (op.insert && typeof op.insert === 'string') {
+      // Handle text content
+      portableText.push({
+        _type: 'block',
+        style: 'normal', // Default style
+        children: [{ _type: 'span', text: op.insert }], // Ensure text is a string
+      });
+    }
+    if (op.insert && typeof op.insert === 'object' && op.insert.image) {
+      // Handle images
+      portableText.push({
+        _type: 'image',
+        asset: { _type: 'reference', _ref: op.insert.image }, // Reference to the image asset
+      });
+    }
+  });
+
+  return portableText;
+};
+// const convertDeltaToPortableText = (delta) => {
+//   if (!delta || !delta.ops) return []; // Handle empty content
+
+//   const portableText = [];
+
+//   delta.ops.forEach((op) => {
+//     if (op.insert) {
+//       // Handle text content
+//       portableText.push({
+//         _type: "block",
+//         style: "normal", // Default style, customize as needed
+//         children: [
+//           {
+//             _type: "span",
+//             text: op.insert,
+//           },
+//         ],
+//       });
+//     }
+//     // Handle other Delta operations (e.g., images, links, etc.)
+//     if (op.insert && typeof op.insert === "object" && op.insert.image) {
+//       // Handle images
+//       portableText.push({
+//         _type: "image",
+//         asset: {
+//           _type: "reference",
+//           _ref: op.insert.image, // Assuming this is the image reference
+//         },
+//       });
+//     }
+//   });
+
+//   return portableText;
+// };
 export default function BlogUploadPage({ cat }) {
+  const editorRef = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
+  const [body, setBody] = useState([]);
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const editorRef = useRef(null);
   const [statusLoading, setStatusLoading] = useState(false);
+  const cookie = new Cookies();
+  const authorId = cookie.get("mb-id");
 
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const res = await fetch("/api/categories");
-        const data = await res.json();
-        setCategories(data.categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    }
-    fetchCategories();
-  }, []);
-
+  // console.log(cat[0]._id)
   // Handle file selection
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
-
+// console.log(editorRef.current?.getContents())
   // Handle category selection
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
@@ -43,43 +95,60 @@ export default function BlogUploadPage({ cat }) {
         : [...prev, category]
     );
   };
-
+  console.log(selectedCategories.join(""), authorId);
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
+    if (editorRef.current) {
+      const delta = editorRef.current.getContents(); // Get Delta object
+      const html = editorRef.current.getHTML(); // Get HTML (optional)
+      console.log("Delta:", delta);
+      console.log("HTML:", html);
+    }
+    // Get content from editor
     const editorContent = editorRef.current?.getContents();
+    let imageAssetId = "";
+    // Convert content to Sanity block format
+    const portableTextContent = convertDeltaToPortableText(editorContent);
+    console.log(portableTextContent)
 
-    // Convert content to Portable Text format
-    const portableTextContent = [
-      {
-        _type: "block",
-        children: [{ _type: "span", text: editorContent }],
-      },
-    ];
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", JSON.stringify(portableTextContent));
-    formData.append("categories", JSON.stringify(selectedCategories));
-    if (image) formData.append("image", image);
-
+  
+    // Upload image if available
+    if (image) {
+      imageAssetId = await uploadImageToSanity(image);
+    }
+  
+    // Create JSON payload
+    const postData = {
+      title,
+      content: portableTextContent, // ✅ Properly formatted blockContent
+      authorId,
+      categories: selectedCategories,
+      mainImage: imageAssetId
+        ? {
+            _type: "image",
+            asset: { _type: "reference", _ref: imageAssetId },
+          }
+        : null,
+    };
+  
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
       });
-
+  
       const data = await res.json();
       setLoading(false);
       setMessage(data.message || "Blog uploaded successfully!");
-
+  
       // Reset form
       setTitle("");
-      //   editorRef.current?.getContents().ops = []; // Clear the editor
-
       setContent("");
       setSelectedCategories([]);
       setImage(null);
@@ -89,6 +158,7 @@ export default function BlogUploadPage({ cat }) {
       setMessage("Failed to upload blog. Try again.");
     }
   };
+  
   console.log(content);
 
   const toggleDraftStatus = async () => {
@@ -113,8 +183,7 @@ export default function BlogUploadPage({ cat }) {
         {message && <p className="text-green-500 mb-4">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
-        <input type="file" onChange={handleImageChange} />
+          <input type="file" onChange={handleImageChange} />
 
           <input
             type="text"
@@ -125,7 +194,7 @@ export default function BlogUploadPage({ cat }) {
             required
           />
 
-          <TextEditor ref={editorRef} />
+          <TextEditor ref={editorRef} defaultValue={{ ops: [{ insert: "Hello, world!\n" }] }}  />
 
           <div>
             <label className="font-semibold">Categories:</label>
@@ -147,7 +216,6 @@ export default function BlogUploadPage({ cat }) {
               ))}
             </select>
           </div>
-
 
           <button
             type="submit"

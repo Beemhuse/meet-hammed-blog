@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Button from "@/components/reusables/button";
 import InputComponent from "@/components/reusables/input";
 import Typography from "@/components/reusables/typography";
@@ -10,6 +10,7 @@ import { postRequest } from "@/services/postRequest";
 import toast from "react-hot-toast";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const schema = yup.object().shape({
   email: yup
     .string()
@@ -20,8 +21,8 @@ const schema = yup.object().shape({
 });
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
-const cookie = new Cookies()
-const {push} = useRouter()
+  const cookie = new Cookies();
+  const { push } = useRouter();
   const {
     register,
     reset,
@@ -34,13 +35,20 @@ const {push} = useRouter()
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-     const res= await postRequest("/api/login", data);
+      const res = await postRequest("/api/login", data);
       toast.success("User signed in successfully!");
-      console.log(res)
-      cookie.set("mb-token",res.token)
+      console.log(res);
+      cookie.set("mb-token", res.token, {
+        sameSite: "Strict", // Prevent CSRF attacks
+        maxAge:3600, // Cookie expiration time (1 hour)
+      });
+      cookie.set("mb-id", res.user.id, {
+        sameSite: "Strict", // Prevent CSRF attacks
+        maxAge: 3600, // Cookie expiration time (1 hour)
+      });
       setIsLoading(false);
       reset();
-      push("/a-dashboard")
+      push("/a-dashboard");
     } catch (err) {
       setIsLoading(false);
       toast.error(err.message || "Failed");
@@ -51,7 +59,6 @@ const {push} = useRouter()
   return (
     <section className=" h-screen  flex items-center justify-center">
       <div className="max-w-lg w-full ">
-       
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid gap-3 bg-white p-10 rounded-lg shadow-md"
@@ -84,7 +91,9 @@ const {push} = useRouter()
             size="sm"
             className="text-start text-accent my-2"
           >
+            <Link href={'/a-admin/forgot-password'}>
             Forgot Password?
+            </Link>
           </Typography>
 
           <Button

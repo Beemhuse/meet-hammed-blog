@@ -1,6 +1,7 @@
 import Button from "@/components/reusables/button";
 import InputComponent from "@/components/reusables/input";
 import Typography from "@/components/reusables/typography";
+import Link from "next/link";
 import React from "react";
 
 export default function page() {
@@ -31,11 +32,13 @@ export default function page() {
             size="sm"
             className="text-start text-accent my-2"
           >
+            <Link href='/a-admin/login'>
             Back to login?
+            </Link>
           </Typography>
 
           <Button
-            title="Login"
+            title="Submit"
             color="gray"
             type="submit"
             // isLoading={loading}

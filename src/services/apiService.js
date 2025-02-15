@@ -86,7 +86,7 @@ export const fetchCategories = async () => {
   try {
     const data = await client.fetch(
       `*[_type == "category" && !(_id in path("drafts.**"))]{
-              title,
+              title, _id
           }`
     );
     return data;
