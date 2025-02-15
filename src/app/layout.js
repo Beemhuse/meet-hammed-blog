@@ -1,7 +1,6 @@
 import "./globals.css";
 import ThemeProviderComp from "@/layout/ThemeProvider";
 import MainLayout from "./MainLauout";
-import NextAnalytics from "next-analytics";
 import Script from "next/script";
 
 
