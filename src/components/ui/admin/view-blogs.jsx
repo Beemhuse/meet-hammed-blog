@@ -57,6 +57,11 @@ function CustomTabs({ activeTab, setActiveTab }) {
 
 export default function ViewBlogs() {
   const { data: posts, mutate } = useSWR(POSTS_QUERY);
+  const itemsPerPage = 10; // Adjust for responsiveness
+  const [currentPage, setCurrentPage] = useState(1);
+
+  
+
 
   const router = useRouter(); // Initialize Next.js router
 
@@ -99,7 +104,17 @@ export default function ViewBlogs() {
     if (activeTab === "all") return true;
     return activeTab === "draft" ? blog.isDraft : !blog.isDraft;
   });
+// Calculate total pages
+const totalPages = Math.ceil(filteredPosts?.length / itemsPerPage);
 
+// Slice the posts based on current page
+const paginatedPosts = filteredPosts?.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
+  // Pagination handlers
+  const nextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">All Blogs</h1>
@@ -107,21 +122,42 @@ export default function ViewBlogs() {
       <CustomTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="space-y-4">
-        {filteredPosts?.length > 0 ? (
-          filteredPosts.map((post) => (
-            <BlogItem
-              key={post._id}
-              blog={post}
-              onDelete={() => handleActionClick(post, "delete")}
-              onEdit={() => handleActionClick(post, "draft")}
-              mutate={mutate}
-            />
-          ))
-        ) : (
-          <EmptyState />
-        )}
+      {paginatedPosts?.length > 0 ? (
+        paginatedPosts?.map((post) => (
+          <BlogItem
+            key={post._id}
+            blog={post}
+            onDelete={() => handleActionClick(post, "delete")}
+            onEdit={() => handleActionClick(post, "draft")}
+            mutate={mutate}
+          />
+        ))
+      ) : (
+        <EmptyState />
+      )}
       </div>
-
+ {/* Pagination Controls */}
+ {totalPages > 1 && (
+        <div className="flex justify-center items-center space-x-4 mt-6">
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 text-sm font-semibold bg-gray-200 dark:bg-gray-700 rounded-lg disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 text-sm font-semibold bg-gray-200 dark:bg-gray-700 rounded-lg disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
       {/* Confirmation Modal */}
       {openModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

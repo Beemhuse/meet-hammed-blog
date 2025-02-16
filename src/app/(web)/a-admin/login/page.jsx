@@ -63,7 +63,7 @@ export default function Page() {
           className="grid gap-3 bg-white p-10 rounded-lg shadow-md"
           method="post"
         >
-          <Typography variant="h1" size="lg" className="text-center">
+          <Typography variant="h1" size="lg" className="text-center dark:text-black">
             Login to Dashboard
           </Typography>
           <InputComponent

@@ -1,7 +1,10 @@
 export default function Page() {
   return (
     <>
-      <div className="flex flex-1 flex-col gap-4 p-4">Welcome to dashboard</div>
+      <iframe
+        src="https://hammed-blog.sanity.studio/"
+        className="w-full h-screen"
+      />{" "}
     </>
   );
 }

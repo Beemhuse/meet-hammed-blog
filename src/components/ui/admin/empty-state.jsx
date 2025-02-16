@@ -66,7 +66,7 @@ const {push} = useRouter()
         icon={<PlusCircle className="mr-2 h-5 w-5" />}
         title={"        Create Your First Post     "}
         onMouseEnter={() => setIsHovered(true)}
-        onClick={()=> push("/a-dashboard/manage-account")}
+        onClick={()=> push("/a-dashboard/")}
         onMouseLeave={() => setIsHovered(false)}
         className="bg-purple-600 flex items-center gap-4 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition-all duration-200 ease-in-out transform hover:scale-105"
       />

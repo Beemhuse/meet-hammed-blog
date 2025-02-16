@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiUpload, FiSettings, FiPlusCircle, FiLogOut } from "react-icons/fi";
-import { GrSteps } from "react-icons/gr";
+import {  FiLogOut } from "react-icons/fi";
 import { HiSquare3Stack3D } from "react-icons/hi2";
 
 import { cn } from "@/lib/utils";
@@ -17,17 +16,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/side-bar";
 import Image from "next/image";
+import { Cookies } from "react-cookie";
+import { CiHome } from "react-icons/ci";
 
 const menuItems = [
+ 
   {
     title: "Dashboard",
-    icon: GrSteps,
-    href: "/a-dashboard",
-  },
-  {
-    title: "Manage Account",
-    icon: FiUpload,
-    href: "/a-dashboard/manage-account",
+    icon:CiHome ,
+    href: "/a-dashboard/",
   },
   {
     title: "View posts",
@@ -35,15 +32,17 @@ const menuItems = [
     href: "/a-dashboard/view-posts",
   },
 
-  {
-    title: "Settings",
-    icon: FiSettings,
-    href: "/admin/settings",
-  },
+ 
 ];
 
 export function MainNav() {
   const pathname = usePathname();
+const cookies = new Cookies()
+  const logout =()=>{
+    cookies.remove("mb-token")
+    cookies.remove("mb-id")
+    window.location.reload()
+  }
 
   return (
     <Sidebar>
@@ -86,23 +85,13 @@ export function MainNav() {
       </SidebarContent>
       <SidebarFooter className="p-4">
         <SidebarMenu>
+        
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               className="hover:bg-orange-600/10 hover:text-orange-600 text-white"
             >
-              <Link href="/admin/new-course">
-                <FiPlusCircle className="mr-2 h-5 w-5" />
-                Create New Course
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="hover:bg-orange-600/10 hover:text-orange-600 text-white"
-            >
-              <button>
+              <button onClick={logout}>
                 <FiLogOut className="mr-2 h-5 w-5" />
                 Sign-out
               </button>

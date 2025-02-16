@@ -1,19 +1,21 @@
-
-"use client"
+"use client";
+import { useEffect } from "react";
 import { MainNav } from "@/layout/admin/SideBar";
 import { Header } from "@/layout/admin/TopNav";
 import { SidebarProvider } from "@/context/sidebar-context";
 import { SidebarInset } from "@/layout/admin/sidebar-inset";
 import { Cookies } from "react-cookie";
-import { RedirectType, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function AdminLayout({ children }) {
   const cookies = new Cookies();
-  const {push} = useRouter()
+  const { push } = useRouter();
   const token = cookies.get("mb-token");
-  if (!token) {
-    push("/") 
-  }
+  useEffect(() => {
+    if (!token) {
+      push("/");
+    }
+  }, [token]);
   return (
     <SidebarProvider>
       <div className="flex bg-[#F3F2F7] w-full max-w-[120em] m-auto min-h-screen">
