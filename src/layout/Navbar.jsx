@@ -2,7 +2,6 @@
 import useDarkMode from "@/hooks/useDarkMode";
 import useNavbarVisibility from "@/hooks/useNavbarVisibility";
 import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
 import MobileNavbar from "./mobile-navbar";
 import { Sun, Moon } from "lucide-react";
 
@@ -42,14 +41,7 @@ const Navbar = () => {
         {/* Search and Dark Mode Toggle */}
         <div className="flex items-center space-x-4">
           {/* Search */}
-          <div className="relative hidden md:block">
-            <input
-              type="text"
-              placeholder="Search"
-              className="hidden md:block px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none"
-            />
-            <FaSearch className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400" />
-          </div>
+        
 
           {/* Dark Mode Toggler */}
           {/* <button

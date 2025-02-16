@@ -37,7 +37,6 @@ export default function Page() {
     try {
       const res = await postRequest("/api/login", data);
       toast.success("User signed in successfully!");
-      console.log(res);
       cookie.set("mb-token", res.token, {
         sameSite: "Strict", // Prevent CSRF attacks
         maxAge:3600, // Cookie expiration time (1 hour)

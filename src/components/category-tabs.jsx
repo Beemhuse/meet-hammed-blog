@@ -14,7 +14,6 @@ export default function CategoryTabs() {
     async function fetchCategories() {
       const query = `*[_type == "category"]{_id, title, slug }`;
       const data = await client.fetch(query);
-      console.log(data);
       setCategories([{ title: "All", slug: { current: "all" } }, ...data]);
     }
     fetchCategories();
@@ -23,7 +22,6 @@ export default function CategoryTabs() {
     // Ensure "All" category sets a valid URL
     router.push(slug === "all" ? "/blog?category=all" : `/blog?category=${slug}`);
   };
-  console.log(categories);
   return (
     <div className="flex space-x-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-x-auto">
       {categories?.map((category) => (

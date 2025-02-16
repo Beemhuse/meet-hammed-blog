@@ -8,7 +8,6 @@ export async function POST(req) {
     const body = await req.json();
 
     const { title, slug, authorId, image, categories, publishedAt, content, isDraft } = body;
-    console.log(categories)
     // Validation
     if (!title || !content) {
       return NextResponse.json(
@@ -33,7 +32,6 @@ export async function POST(req) {
         children: [{ _type: "span", text: content }],
       },
     ];
-    console.log(authorId, image)
     // Create post object
     const newPost = {
       _type: "post",

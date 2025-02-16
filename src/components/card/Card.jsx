@@ -4,11 +4,9 @@ import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
-// import SpotlightCard from "../../../SpotlightCard/SpotlightCard";
 
 const Card = ({ image, category, title, author, date, slug }) => {
   const { push } = useRouter();
-console.log(slug)
   return (
 
     <div
@@ -18,7 +16,7 @@ console.log(slug)
       {/* Image Section */}
       <div className="relative overflow-hidden rounded-lg">
         <Image
-          src={urlFor(image)}
+          src={image? urlFor(image): null}
           alt={title}
           height={100}
           width={300}
@@ -44,7 +42,7 @@ console.log(slug)
         {/* Author */}
         <div className="flex items-center space-x-2">
           <Image
-            src={urlFor(image)}
+            src={image? urlFor(image): null}
             alt={author}
             height={100}
             width={300}

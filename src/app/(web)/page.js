@@ -2,18 +2,19 @@ import Card from "@/components/card/Card";
 import FeaturedBlog from "@/components/header/featured-blog";
 import RollingGallery from "@/components/rolling-gallery";
 import { client } from "@/sanity/client";
-import { options, POSTS_QUERY } from "@/sanity/queries";
-
-const featuredBlogData = {
-  "image": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  category: "Technology",
-  title: "The Impact of Technology on the Workplace: How Technology is Changing",
-  author: "Jason Francisco",
-  authorImage: "https://via.placeholder.com/100", // Replace with actual author image URL
-  date: "August 20, 2022",
-};
+import { options, } from "@/sanity/queries";
 
 export default async function Home() {
+  const featuredBlogQuery = `*[_type == "featuredBlog"][0] {
+    image { asset->{url} },
+    category,
+    title,
+    author,
+    authorImage,
+    date
+  }`;
+
+  const featuredBlog = await client.fetch(featuredBlogQuery);
   const query = `*[_type == "post" && isDraft == false]{
         _id, 
         title,
@@ -28,7 +29,7 @@ export default async function Home() {
 
   return (
     <div className="">
-      <FeaturedBlog blog={featuredBlogData} />
+      <FeaturedBlog blog={featuredBlog} />
       <section className="max-w-7xl m-auto p-4">
 
         <h2 className="font-bold text-2xl dark:text-white">Latest Post</h2>
@@ -37,7 +38,7 @@ export default async function Home() {
             <Card
               key={item._id}
               image={item.image}
-              category={item.categories}
+              category={item.category}
               title={item.title}
               author={item.author}
               date={item.publishedAt}
@@ -47,8 +48,11 @@ export default async function Home() {
           ))}
         </div>
       </section>
-      <section>
-        <RollingGallery />
+      <section className="bg-gray-50 dark:bg-gray-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-bold text-3xl mb-8 dark:text-white">Explore Our Gallery</h2>
+          <RollingGallery />
+        </div>
       </section>
 
     </div>

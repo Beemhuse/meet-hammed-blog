@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import Loading from "@/components/ui/loading";
 import Link from "next/link";
 import { postRequest } from "@/services/postRequest";
+import { FiInstagram, FiTwitter } from "react-icons/fi";
+import { fetchCategories } from "@/services/apiService";
 
 const schema = yup.object().shape({
   email: yup
@@ -16,7 +18,15 @@ const schema = yup.object().shape({
 });
 const Footer = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [categories, setCategories] = useState(null);
+  useEffect(()=>{
+async function getCategories()  {
+  
+  const data = await fetchCategories()
+  setCategories(data)
+}
+getCategories();
+  }, [])
   const {
     register,
     reset,
@@ -39,7 +49,6 @@ const Footer = () => {
       setIsLoading(false);
       toast.error(err || "Failed");
       reset();
-
     } finally {
       setIsLoading(false);
     }
@@ -51,16 +60,30 @@ const Footer = () => {
         <div className="dark:text-[#97989F]">
           <h3 className="text-xl font-semibold mb-4">About</h3>
           <p className="text-sm dark:text-[#97989F] text-gray-600 mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam.
+            Hamed, a young entrepreneur with a passion for media and technology,
+            embarked on his entrepreneurial journey with Media Cartel, a brand
+            that swiftly gained traction for its creative and forward-thinking
+            approach to digital media.
           </p>
           <p className="text-sm dark:text-[#97989F] text-gray-600">
-            <span className="font-semibold">Email:</span> info@jstemplate.net
+            <span className="font-semibold">Email:</span> otunhamed@gmail.com
           </p>
-          <p className="text-sm dark:text-[#97989F] text-gray-600">
-            <span className="font-semibold">Phone:</span> 880 123 456 789
-          </p>
+          <div className="flex mt-4 gap-4 items-center">
+            <Link
+              href="https://x.com/hmdofcartel"
+              target={"_blank"}
+              className="border p-2 rounded-full"
+            >
+              <FiTwitter />
+            </Link>
+            <Link
+              href="https://www.instagram.com/hmdofcartel"
+              target={"_blank"}
+              className="border p-2 rounded-full"
+            >
+              <FiInstagram />
+            </Link>
+          </div>
         </div>
 
         {/* Quick Links */}
@@ -84,9 +107,6 @@ const Footer = () => {
                 Blog
               </Link>
             </li>
-          
-           
-           
           </ul>
         </div>
 
@@ -96,36 +116,17 @@ const Footer = () => {
             Category
           </h3>
           <ul className="space-y-2 text-sm dark:text-[#97989F] text-gray-600">
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Lifestyle
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Technology
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Travel
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Business
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Economy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-600">
-                Sports
-              </a>
-            </li>
+            {
+              categories?.slice(0,6).map((category) => (
+                <li key={category._id}>
+                  <Link href={`/blog/?category=${category.slug.current}`}>
+                      {category.title}
+                  </Link>
+                </li>
+              )) || <Loading />
+            }
+          
+          
           </ul>
         </div>
 
@@ -137,26 +138,25 @@ const Footer = () => {
           <p className="text-sm text-gray-600 mb-4 text-center dark:text-[#97989F]">
             Get blog articles and offers via email.
           </p>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col space-y-4"
+          >
             <input
               type="email"
               {...register("email")}
               placeholder="Your Email"
               className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {
-              errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-              )
-            }
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
             <button
               type="submit"
               disabled={isLoading}
               className="bg-blue-600 text-white font-semibold rounded-lg py-2 hover:bg-blue-700 transition"
             >
-              {
-                isLoading? <Loading /> : "Subscribe"
-              }
+              {isLoading ? <Loading /> : "Subscribe"}
             </button>
           </form>
         </div>
@@ -168,15 +168,15 @@ const Footer = () => {
           MeetHammed &copy; by Bright 2025. All Rights Reserved.
         </p>
         <div className="flex justify-center space-x-4 mt-2">
-          <a href="#" className="text-sm text-gray-600 hover:text-blue-600">
+          <Link href="#" className="text-sm text-gray-600 hover:text-blue-600">
             Terms of Use
-          </a>
-          <a href="#" className="text-sm text-gray-600 hover:text-blue-600">
+          </Link>
+          <Link href="#" className="text-sm text-gray-600 hover:text-blue-600">
             Privacy Policy
-          </a>
-          <a href="#" className="text-sm text-gray-600 hover:text-blue-600">
+          </Link>
+          <Link href="#" className="text-sm text-gray-600 hover:text-blue-600">
             Cookie Policy
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

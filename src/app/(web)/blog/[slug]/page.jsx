@@ -22,7 +22,6 @@ const extractText = (content) => {
 };
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  console.log(slug);
   const currentUrl = `https://www.onemapafrica.org/blog/${slug}`;
 
   const blog = await client.fetch(
@@ -39,7 +38,6 @@ export async function generateMetadata({ params }) {
     }`,
     { slug } // Correct parameter binding
   );
-  console.log(blog);
   if (!blog) {
     return { title: "Blog not found" };
   }
@@ -79,6 +77,18 @@ export default async function Page({ params }) {
     }`,
     { slug } // Correct parameter binding
   );
+  const featuredBlogQuery = `*[_type == "featuredBlog"] {
+    image,
+    category,
+    body,
+    title,
+    slug,
+    content,
+    author,
+    authorImage,
+    date
+  }`;
+  const featuredBlogs = await client.fetch(featuredBlogQuery, {}, options);
   const posts = await client.fetch(POSTS_QUERY, {}, options);
   if (!blog) {
     return <div>Blog not found</div>;
@@ -91,13 +101,17 @@ export default async function Page({ params }) {
           <span className="bg-[#F2F8F7] dark:bg-[#fff] dark:text-black rounded-xl mb-3 p-2 text-xs">
             {blog?.categories}
           </span>
-          <h2 className="text-2xl dark:text-[#ededed] font-bold mt-3">{blog?.title}</h2>
+          <h2 className="text-2xl dark:text-[#ededed] font-bold mt-3">
+            {blog?.title}
+          </h2>
           <div className="flex mt-3 items-center">
             <div className="flex items-center gap-3">
               <div className="uppercase w-10 h-10 bg-gray-200 dark:bg-[#FFD700] dark:text-black flex items-center justify-center rounded-full text-sm">
                 {getFirstLetter(blog?.author)}
               </div>
-              <p className="capitalize text-sm dark:text-[#ededed]">{blog?.author}</p>
+              <p className="capitalize text-sm dark:text-[#ededed]">
+                {blog?.author}
+              </p>
             </div>
             <p className="flex text-sm dark:text-[#ededed] items-center gap-2 ml-4">
               {" "}
@@ -131,7 +145,7 @@ export default async function Page({ params }) {
                     <Link href={`/blog/${recentBlog?.slug.current}`}>
                       <div className="flex items-center gap-4">
                         <Image
-                          src={recentBlog?.image}
+                          src={urlFor(recentBlog?.image)}
                           alt=""
                           width={50}
                           height={50}
@@ -143,6 +157,36 @@ export default async function Page({ params }) {
                           </p>
                           <p className="text-xs text-gray-500">
                             {formatDate(recentBlog?.publishedAt)}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-[#ededed] mb-4">
+                Featured Posts
+              </h3>
+              <ul className="space-y-4">
+                {featuredBlogs?.slice(0, 3).map((recentBlog) => (
+                  <li key={recentBlog._id}>
+                    <Link href={`/blog/${recentBlog?.slug.current}`}>
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={urlFor(recentBlog?.image)}
+                          alt=""
+                          width={50}
+                          height={50}
+                          className="object-cover"
+                        />{" "}
+                        <div>
+                          <p className="text-sm font-medium text-gray-800 dark:text-white">
+                            {recentBlog?.title}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {formatDate(recentBlog?.date)}
                           </p>
                         </div>
                       </div>

@@ -118,8 +118,7 @@ const RollingGallery = ({
   };
 
   return (
-    <div className="relative h-[500px] w-full overflow-hidden">
-      <h2 className="text-center text-2xl dark:text-white">My gallery</h2>
+    <div className="relative h-[500px] -mt-10 w-full overflow-hidden">
       <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
         <motion.div
           drag="x"

@@ -1,12 +1,16 @@
+import { urlFor } from "@/sanity/client";
+import Image from "next/image";
 import React from "react";
 
 const FeaturedBlog = ({ blog }) => {
   return (
     <section className="mt-10">
       <div className="relative w-full rounded-lg overflow-hidden shadow-lg">
-        <img
-          src={blog.image}
+        <Image
+          src={urlFor(blog.image)}
           alt={blog.title}
+          width={500}
+          height={500}
           className="w-full h-[50vh] object-cover"
         />
       </div>

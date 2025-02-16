@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { FiUpload, FiSettings, FiPlusCircle, FiLogOut } from "react-icons/fi";
 import { GrSteps } from "react-icons/gr";
 import { HiSquare3Stack3D } from "react-icons/hi2";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { CiCreditCard2 } from "react-icons/ci";
 
 import { cn } from "@/lib/utils";
 import {
@@ -27,26 +25,16 @@ const menuItems = [
     href: "/a-dashboard",
   },
   {
-    title: "Upload Blog",
+    title: "Manage Account",
     icon: FiUpload,
-    href: "/a-dashboard/upload-blog",
+    href: "/a-dashboard/manage-account",
   },
   {
-    title: "My Blogs",
+    title: "View posts",
     icon: HiSquare3Stack3D,
-    href: "/a-dashboard/my-blogs",
+    href: "/a-dashboard/view-posts",
   },
-  // {
-  //   title: "Earning",
-  //   icon: CiCreditCard2,
-  //   href: "/admin/earning",
-  // },
-  // {
-  //   title: "Message",
-  //   icon: IoChatbubbleEllipsesOutline,
-  //   href: "/admin/messages",
-  //   badge: "1",
-  // },
+
   {
     title: "Settings",
     icon: FiSettings,
