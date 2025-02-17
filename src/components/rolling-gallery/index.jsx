@@ -7,6 +7,8 @@ import {
   useTransform,
 } from "framer-motion";
 import Image from "next/image";
+import { fetchGallery } from "@/services/apiService";
+import { urlFor } from "@/sanity/client";
 
 const IMGS = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -26,7 +28,9 @@ const RollingGallery = ({
   pauseOnHover = false,
   images = [],
 }) => {
-  images = images.length > 0 ? images : IMGS;
+ 
+
+  images = images?.length > 0 ? images : IMGS;
 
   const [isScreenSizeSm, setIsScreenSizeSm] = useState(
     typeof window !== "undefined" && window.innerWidth <= 640
@@ -135,9 +139,9 @@ const RollingGallery = ({
             width: cylinderWidth,
             transformStyle: "preserve-3d",
           }}
-          className="flex min-h-[200px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
+          className="flex min-h-[300px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
         >
-          {images.map((url, i) => (
+          {images?.map((url, i) => (
             <div
               key={i}
               className="group absolute flex h-fit items-center justify-center p-[8%] [backface-visibility:hidden] md:p-[6%]"
@@ -151,11 +155,11 @@ const RollingGallery = ({
               <Image
                 height={500}
                 width={500}
-                src={url}
-                alt="gallery"
+                src={urlFor(url.image)}
+                alt={url.title}
                 className="pointer-events-none h-[120px] w-[500px] rounded-[15px] border-[3px] border-white object-cover
                            transition-transform duration-300 ease-out group-hover:scale-105
-                           sm:h-[100px] sm:w-[220px]"
+                           sm:h-[180px] sm:w-[220px]"
               />
             </div>
           ))}

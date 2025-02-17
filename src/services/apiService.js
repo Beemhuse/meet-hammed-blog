@@ -95,14 +95,14 @@ export const fetchCategories = async () => {
     throw error;
   }
 };
-export const fetchPrograms = async () => {
+export const fetchGallery = async () => {
   try {
-    const query = `*[_type == "program" && !(_id in path("drafts.**"))]{
-      image,
+    const data = await client.fetch(`*[_type == "gallery" && !(_id in path("drafts.**"))]{
+      "image": authorImage,
       title,
-      description,
-    }`;
-    return await client.fetch(query);
+    }`);
+    console.log(data)
+    return data;
   } catch (error) {
     console.error("Error fetching events:", error);
     throw error;

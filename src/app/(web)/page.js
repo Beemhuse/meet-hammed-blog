@@ -3,6 +3,7 @@ import FeaturedBlog from "@/components/header/featured-blog";
 import RollingGallery from "@/components/rolling-gallery";
 import { client } from "@/sanity/client";
 import { options, } from "@/sanity/queries";
+import { fetchGallery } from "@/services/apiService";
 
 export default async function Home() {
   const featuredBlogQuery = `*[_type == "featuredBlog"][0] {
@@ -26,7 +27,8 @@ export default async function Home() {
         "author": author->name
       }`
   const posts = await client.fetch(query, {}, options);
-
+const gallery = await fetchGallery()
+console.log(gallery)
   return (
     <div className="">
       <FeaturedBlog blog={featuredBlog} />
@@ -51,7 +53,7 @@ export default async function Home() {
       <section className="bg-gray-50 dark:bg-gray-900 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-bold text-3xl mb-8 dark:text-white">Explore Our Gallery</h2>
-          <RollingGallery />
+          <RollingGallery images={gallery} />
         </div>
       </section>
 
