@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.7",
     "@hookform/resolvers": "^3.10.0",
     "@portabletext/react": "^3.2.0",
     "@react-spring/web": "^9.7.5",
