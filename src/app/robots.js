@@ -11,6 +11,6 @@ export default function robots() {
           disallow: ['/'],
         },
       ],
-      sitemap: 'https://onemapafrica.org/sitemap.xml',
+      sitemap: 'https://meethamed.com/sitemap.xml',
     }
   }

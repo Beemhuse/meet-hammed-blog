@@ -1,15 +1,15 @@
 export default function manifest() {
   return {
-    name: 'Meet hammed',
-    short_name: 'MH',
-    description: 'One Map Africa is a dedicated NGO leveraging innovative mapping and GIS solutions to address pressing challenges across Africa. We empower communities, support sustainable development, and drive impactful decision-making through real-time data and geographic insights. Join us in creating a brighter future for the continent.',
+    name: 'Hamed Otun | Entrepreneur & Student – Business, Tech, and Personal Growth',
+    short_name: 'HMD',
+    description: 'Join Hamed Otun, an entrepreneur and student, as he shares insights on business, startups, technology, finance, and personal growth. Explore strategies for success, productivity tips, and real-world experiences in entrepreneurship and education.',
     start_url: '/',
     display: 'standalone',
     background_color: '#fff',
     theme_color: '#fff',
     icons: [
       {
-        src: '/favicon.ico',
+        src: '/hamed.webp',
         sizes: 'any',
         type: 'image/x-icon',
       },

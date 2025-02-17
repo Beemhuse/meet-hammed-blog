@@ -1,4 +1,5 @@
 import { urlFor } from "@/sanity/client";
+import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import React from "react";
 
@@ -7,7 +8,7 @@ const FeaturedBlog = ({ blog }) => {
     <section className="mt-10">
       <div className="relative w-full rounded-lg overflow-hidden shadow-lg">
         <Image
-          src={urlFor(blog.image)}
+          src={urlFor(blog.authorImage)}
           alt={blog.title}
           width={500}
           height={500}
@@ -29,7 +30,7 @@ const FeaturedBlog = ({ blog }) => {
             className="w-8 h-8 rounded-full mr-2"
           />
           <span className="dark:text-[#97989F]">{blog.author}</span>
-          <span className="ml-4 dark:text-[#97989F]">{blog.date}</span>
+          <span className="ml-4 dark:text-[#97989F]">{formatDate(blog.date)}</span>
         </div>
       </div>
     </section>

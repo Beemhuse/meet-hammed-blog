@@ -1,14 +1,9 @@
 import { client } from "@/sanity/client";
 
 export default async function sitemap() {
-    const baseUrl = "https://www.onemapafrica.org";
+    const baseUrl = "https://www.meethamed.com";
   
-    const events = await client.fetch(`
-        *[_type == "event"]{
-          "slug": slug.current,
-          _updatedAt
-        }
-      `);
+ 
     
       const blogs = await client.fetch(`
         *[_type == "blog"]{
@@ -30,18 +25,7 @@ export default async function sitemap() {
         changeFrequency: "monthly",
         priority: 0.8,
       },
-      {
-        url: `${baseUrl}/contact`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.7,
-      },
-      {
-        url: `${baseUrl}/get-involved`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.7,
-      },
+    
       {
         url: `${baseUrl}/blog`,
         lastModified: new Date(),
@@ -54,21 +38,11 @@ export default async function sitemap() {
         changeFrequency: "monthly",
         priority: 0.7,
       },
-      {
-        url: `${baseUrl}/contact`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.7,
-      },
+     
     ];
   
     // // Dynamic routes
-    const eventRoutes = events.map((event) => ({
-        url: `${baseUrl}/events/${event.slug}`,
-        lastModified: new Date(event._updatedAt),
-        changeFrequency: "monthly",
-        priority: 0.7,
-      }));
+
     
       const blogRoutes = blogs.map((blog) => ({
         url: `${baseUrl}/blog/${blog.slug}`,
@@ -77,6 +51,6 @@ export default async function sitemap() {
         priority: 0.5,
       }));
   
-      return [...staticRoutes, ...eventRoutes,  ...blogRoutes];
+      return [...staticRoutes,  ...blogRoutes];
     }
   

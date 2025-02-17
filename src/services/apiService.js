@@ -101,7 +101,6 @@ export const fetchGallery = async () => {
       "image": authorImage,
       title,
     }`);
-    console.log(data)
     return data;
   } catch (error) {
     console.error("Error fetching events:", error);
