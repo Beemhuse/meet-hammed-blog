@@ -24,9 +24,11 @@ const FeaturedBlog = ({ blog }) => {
         <h2 className="md:text-4xl text-2xl font-bold text-gray-900 dark:text-white mt-2">{blog.title}</h2>
         {/* Author and Date */}
         <div className="flex items-center mt-4 text-sm text-gray-600">
-          <img
-            src={blog.authorImage}
+          <Image
+            src={urlFor(blog.authorImage)}
             alt={blog.author}
+            width={500}
+            height={500}
             className="w-8 h-8 rounded-full mr-2"
           />
           <span className="dark:text-[#97989F]">{blog.author}</span>
