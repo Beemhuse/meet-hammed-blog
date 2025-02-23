@@ -35,7 +35,6 @@ export async function POST(req) {
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.error("Login Error:", error);
     return new Response(JSON.stringify({ message: "An error occurred" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

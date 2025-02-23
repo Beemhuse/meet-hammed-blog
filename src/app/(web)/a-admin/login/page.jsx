@@ -34,17 +34,18 @@ export default function Page() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+    const cookieOptions = {
+      secure: true, // Only send cookie over HTTPS
+      httpOnly: true, // Prevents JavaScript access (XSS protection)
+      sameSite: "Strict", // Prevents CSRF attacks
+      path: "/", // Available across the entire domain
+      maxAge: 60 * 60 * 24 * 1, // 1 day expiration
+    };
     try {
       const res = await postRequest("/api/login", data);
       toast.success("User signed in successfully!");
-      cookie.set("mb-token", res.token, {
-        sameSite: "Strict", // Prevent CSRF attacks
-        maxAge:3600, // Cookie expiration time (1 hour)
-      });
-      cookie.set("mb-id", res.user.id, {
-        sameSite: "Strict", // Prevent CSRF attacks
-        maxAge: 3600, // Cookie expiration time (1 hour)
-      });
+      cookie.set("mb-token", res.token, cookieOptions);
+      cookie.set("mb-id", res.user.id, cookieOptions);
       setIsLoading(false);
       reset();
       push("/a-dashboard");
