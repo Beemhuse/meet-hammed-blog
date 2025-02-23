@@ -17,7 +17,7 @@ const schema = yup.object().shape({
     .email("Invalid email format")
     .required("Email is required"),
 
-  password: yup.string().required("Subject is required"),
+  password: yup.string().required("Password is required"),
 });
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,18 +36,19 @@ export default function Page() {
     setIsLoading(true);
     const cookieOptions = {
       secure: true, // Only send cookie over HTTPS
-      httpOnly: true, // Prevents JavaScript access (XSS protection)
+      // httpOnly: true, // Prevents JavaScript access (XSS protection)
       sameSite: "Strict", // Prevents CSRF attacks
       path: "/", // Available across the entire domain
       maxAge: 60 * 60 * 24 * 1, // 1 day expiration
     };
     try {
       const res = await postRequest("/api/login", data);
-      toast.success("User signed in successfully!");
+      toast.success(res.message);
       cookie.set("mb-token", res.token, cookieOptions);
       cookie.set("mb-id", res.user.id, cookieOptions);
       setIsLoading(false);
       reset();
+      console.log(res)
       push("/a-dashboard");
     } catch (err) {
       setIsLoading(false);
